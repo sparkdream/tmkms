@@ -82,6 +82,9 @@ impl ConfigBuilder {
 
         #[cfg(feature = "fortanixdsm")]
         self.add_fortanixdsm_provider_config();
+
+        #[cfg(feature = "pkcs11")]
+        self.add_pkcs11_provider_config();
     }
 
     /// Add `[[validator]]` configurations
@@ -145,6 +148,13 @@ impl ConfigBuilder {
     fn add_fortanixdsm_provider_config(&mut self) {
         self.add_str("### Fortanix DSM Signer Configuration\n\n");
         self.add_template_with_chain_id(include_str!("templates/keyring/fortanixdsm.toml"));
+    }
+
+    /// Add `[[provider.pkcs11]]` configuration
+    #[cfg(feature = "pkcs11")]
+    fn add_pkcs11_provider_config(&mut self) {
+        self.add_str("### PKCS#11 Signer Configuration\n\n");
+        self.add_template_with_chain_id(include_str!("templates/keyring/pkcs11.toml"));
     }
 
     /// Append a template to the config file, substituting `$KMS_HOME`

@@ -7,11 +7,12 @@
     feature = "softsign",
     feature = "yubihsm",
     feature = "ledger",
-    feature = "fortanixdsm"
+    feature = "fortanixdsm",
+    feature = "pkcs11",
 )))]
 compile_error!(
     "please enable one of the following backends with cargo's --features argument: \
-     yubihsm, ledgertm, softsign, fortanixdsm (e.g. --features=yubihsm)"
+     yubihsm, ledgertm, softsign, fortanixdsm, pkcs11 (e.g. --features=yubihsm)"
 );
 
 pub mod application;

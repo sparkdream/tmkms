@@ -37,6 +37,7 @@ jobs:
       - run: cargo build --features=yubihsm-server --release
       - run: cargo build --features=ledger --release
       - run: cargo build --features=yubihsm-server,ledger,softsign --release
+      - run: cargo build --features=pkcs11 --release
 
   test:
     strategy:

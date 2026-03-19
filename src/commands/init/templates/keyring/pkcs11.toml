@@ -1,0 +1,38 @@
+# Only one [[providers.pkcs11]] section is supported per configuration file.
+# IMPORTANT: Restrict this config file to the tmkms user only (chmod 600 tmkms.toml)
+# to prevent the PIN and library path from being readable by other system users.
+[[providers.pkcs11]]
+# Timeout for signing operations in seconds. If the HSM does not respond within
+# this window, the call fails with an error instead of blocking indefinitely.
+# Strongly recommended for production deployments.
+# signing_timeout_secs = 30
+# Path to your HSM's PKCS#11 library file (.so on Linux, .dll on Windows)
+library_path = "/usr/local/lib/softhsm/libsofthsm2.so"
+
+# The label of the token (or slot) on your HSM.
+token_label = "MyToken"
+
+# PIN for the token. Choose ONE of the two options below:
+#
+# Option A — read from an environment variable (recommended for production):
+#   The value must start with `$` followed by the variable name. tmkms will
+#   expand it at startup and fail with a clear error if the variable is unset.
+pin = "$KMS_PKCS11_PIN"
+#
+# Option B — read from a file (the file contents are stripped of whitespace):
+#   pin_file = "/run/secrets/pkcs11-pin"
+
+# List of keys available on this HSM.
+[[providers.pkcs11.keys]]
+# The type of key. For block signing, this must be "consensus".
+key_type = "consensus"
+
+# The label (CKA_LABEL) of the specific key object on the token.
+key_label = "cosmos-validator-key"
+
+# Optional: CKA_ID of the key object as a TOML array of byte integers.
+# Useful when multiple keys share the same label and need to be disambiguated.
+# key_id = [0x01, 0x02, 0x03]
+
+# The chain IDs this specific key is allowed to sign for.
+chain_ids = ["$CHAIN_ID"]

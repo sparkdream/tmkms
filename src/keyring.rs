@@ -228,5 +228,8 @@ pub fn load_config(registry: &mut chain::Registry, config: &ProviderConfig) -> R
     #[cfg(feature = "fortanixdsm")]
     providers::fortanixdsm::init(registry, &config.fortanixdsm)?;
 
+    #[cfg(feature = "pkcs11")]
+    providers::pkcs11::init(registry, &config.pkcs11)?;
+
     Ok(())
 }

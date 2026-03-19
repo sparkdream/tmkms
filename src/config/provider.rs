@@ -8,6 +8,8 @@ pub mod ledgertm;
 pub mod softsign;
 #[cfg(feature = "yubihsm")]
 pub mod yubihsm;
+#[cfg(feature = "pkcs11")]
+pub mod pkcs11;
 
 #[cfg(feature = "fortanixdsm")]
 use self::fortanixdsm::FortanixDsmConfig;
@@ -17,6 +19,8 @@ use self::ledgertm::LedgerTendermintConfig;
 use self::softsign::SoftsignConfig;
 #[cfg(feature = "yubihsm")]
 use self::yubihsm::YubihsmConfig;
+#[cfg(feature = "pkcs11")]
+use self::pkcs11::Pkcs11Config;
 
 use serde::Deserialize;
 use std::fmt;
@@ -44,6 +48,11 @@ pub struct ProviderConfig {
     #[cfg(feature = "fortanixdsm")]
     #[serde(default)]
     pub fortanixdsm: Vec<FortanixDsmConfig>,
+
+    /// Pkcs11 provider configurations
+    #[cfg(feature = "pkcs11")]
+    #[serde(default)]
+    pub pkcs11: Vec<Pkcs11Config>,
 }
 
 /// Types of cryptographic keys

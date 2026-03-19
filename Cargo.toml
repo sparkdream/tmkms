@@ -24,6 +24,10 @@ cometbft = { package = "iq-cometbft", version = "0.1", features = ["secp256k1"] 
 cometbft-config = { package = "iq-cometbft-config", version = "0.1" }
 cometbft-proto = { package = "iq-cometbft-proto", version = "0.1" }
 cometbft-p2p = "0.3"
+cryptoki = { version = "0.10.0", optional = true }
+# secrecy 0.8 is pinned here (not 0.10) because cryptoki 0.10.0 requires secrecy 0.8's
+# Secret<T> type in its session.login() API. Upgrading requires a new cryptoki release.
+secrecy = { version = "0.8", features = ["serde"], optional = true }
 ed25519 = "2"
 ed25519-dalek = { version = "2", features = ["hazmat"] }
 elliptic-curve = { version = "0.13", features = ["pkcs8"], optional = true }
@@ -62,6 +66,7 @@ softsign = []
 yubihsm-mock = ["yubihsm/mockhsm"]
 yubihsm-server = ["yubihsm/http-server", "rpassword"]
 fortanixdsm = ["elliptic-curve", "sdkms", "url", "uuid"]
+pkcs11 = ["cryptoki", "secrecy"]
 
 # Enable integer overflow checks in release builds for security reasons
 [profile.release]
