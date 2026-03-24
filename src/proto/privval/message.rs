@@ -3,7 +3,7 @@
 //!
 //! See `celestia.rs` for more information.
 
-use super::{celestia, v1beta1};
+use super::{celestia, v1, v1beta1};
 
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -13,9 +13,9 @@ pub enum Sum {
     #[prost(message, tag = "2")]
     PubKeyResponse(v1beta1::PubKeyResponse),
     #[prost(message, tag = "3")]
-    SignVoteRequest(v1beta1::SignVoteRequest),
+    SignVoteRequest(v1::SignVoteRequest),
     #[prost(message, tag = "4")]
-    SignedVoteResponse(v1beta1::SignedVoteResponse),
+    SignedVoteResponse(v1::SignedVoteResponse),
     #[prost(message, tag = "5")]
     SignProposalRequest(v1beta1::SignProposalRequest),
     #[prost(message, tag = "6")]

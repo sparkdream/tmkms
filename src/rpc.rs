@@ -34,13 +34,13 @@ impl Request {
 
         let (req, chain_id) = match msg.sum {
             Some(proto::privval::message::Sum::SignVoteRequest(
-                proto::privval::v1beta1::SignVoteRequest {
+                proto::privval::v1::SignVoteRequest {
                     vote: Some(vote),
                     chain_id,
-                    //skip_extension_signing,
+                    skip_extension_signing,
                 },
             )) => (
-                Request::SignVote((vote.try_into()?, false)), //skip_extension_signing)),
+                Request::SignVote((vote.try_into()?, skip_extension_signing)),
                 chain_id,
             ),
             Some(proto::privval::message::Sum::SignProposalRequest(
@@ -92,7 +92,7 @@ impl Request {
 /// RPC responses from the KMS
 #[derive(Debug)]
 pub enum Response {
-    SignedVote(proto::privval::v1beta1::SignedVoteResponse),
+    SignedVote(proto::privval::v1::SignedVoteResponse),
     SignedProposal(proto::privval::v1beta1::SignedProposalResponse),
     SignedRawBytes(proto::privval::celestia::SignedRawBytesResponse),
     Ping(proto::privval::v1beta1::PingResponse),
@@ -127,9 +127,12 @@ impl Response {
                 })
             }
             ConsensusMsg::Vote(_) => {
-                Response::SignedVote(proto::privval::v1beta1::SignedVoteResponse {
+                Response::SignedVote(proto::privval::v1::SignedVoteResponse {
                     vote: None,
-                    error: Some(error),
+                    error: Some(proto::privval::v1::RemoteSignerError {
+                        code: error.code,
+                        description: error.description,
+                    }),
                 })
             }
         }
@@ -146,7 +149,7 @@ impl From<ConsensusMsg> for Response {
                 })
             }
             ConsensusMsg::Vote(vote) => {
-                Response::SignedVote(proto::privval::v1beta1::SignedVoteResponse {
+                Response::SignedVote(proto::privval::v1::SignedVoteResponse {
                     vote: Some(vote.into()),
                     error: None,
                 })

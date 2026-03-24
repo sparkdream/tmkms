@@ -3,6 +3,7 @@
 pub mod celestia;
 pub mod message;
 
+pub use cometbft_proto::privval::v1;
 pub use cometbft_proto::privval::v1beta1;
 
 /// Message type containing the `celestia` extensions
